@@ -2,14 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionWrapper from "./SectionWrapper";
 import { BiLinkExternal } from "react-icons/bi";
-import { about } from "@/types/main";
 
-interface Props {
-    aboutData: about;
-    name: string;
-}
-
-const About = ({ aboutData, name }: Props) => {
+const About = ({ aboutData, name }) => {
     const { aboutImage, aboutImageCaption, title, about, resumeUrl, callUrl } = aboutData;
 
     return (

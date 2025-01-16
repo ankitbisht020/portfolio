@@ -4,7 +4,7 @@ import { BiLoaderAlt } from "react-icons/bi";
 import SectionWrapper from "./SectionWrapper";
 import Image from "next/image";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-toastify/dist/ReactToastify.css'; // Correct import
 
 const Contact = () => {
     const [values, setValues] = useState({
@@ -54,7 +54,7 @@ const Contact = () => {
     return (
         <SectionWrapper id="contact" className="mb-16 mx-4 lg:mx-0">
             <h2 className="text-center text-4xl">Contact Me</h2>
-            <ToastContainer />
+            <ToastContainer /> {/* Toast Container for displaying notifications */}
 
             <div className="w-full lg:w-5/6 2xl:w-3/4 mt-10 md:mt-16 mx-auto flex justify-between rounded-xl">
                 <Image unoptimized={true} quality={100} alt="contact" src="/contact.png" className="hidden md:block w-1/2 h-full object-cover" width={1000} height={1000} />

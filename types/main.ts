@@ -1,10 +1,10 @@
-const skill = {
+type skill = {
     name: string,
     image: string,
     category: string
-};
+}
 
-const project = {
+type project = {
     name: string,
     image: string,
     techstack: string,
@@ -14,54 +14,54 @@ const project = {
         code: string,
         video: string
     }
-};
+}
 
-const experience = {
+type experience = {
     company: string,
     position: string,
     startDate: string,
     endDate: string,
     desc: string[]
-};
+}
 
-const education = {
+type education = {
     institute: string,
     degree: string,
     startDate: string,
     endDate: string,
-};
+}
 
-const main = {
+type main = {
     name: string,
     titles: string[],
     heroImage: string,
     shortDesc: string,
     techStackImages: string[],
-};
+}
 
-const about = {
+type about = {
     aboutImage: string,
     aboutImageCaption: string,
     title: string,
     about: string,
     resumeUrl: string,
     callUrl: string
-};
+}
 
-const social = {
+type social = {
     name: string,
     icon: string,
     link: string
-};
+}
 
-const data = {
+type data = {
     main: main,
     about: about,
     skills: skill[],
     projects: project[],
     experiences: experience[],
-    educations: education[],
+    educations: education[]
     socials: social[]
-};
+}
 
-export { data, main, about, skill, project, experience, education, social };
+export type { data, main, about, skill, project, experience, education, social };
