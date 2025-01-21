@@ -38,6 +38,7 @@ export default function Head() {
           content="Portfolio | Jigar Sable - Full Stack Developer"
         />
         <link rel="icon" href="/favicon.ico" />
+
         <title>Portfolio | Jigar Sable - Full Stack Developer</title>
       </>
     );

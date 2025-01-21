@@ -30,7 +30,7 @@ export default function Footer({ socials, name }) {
           <p className="text-sm">X</p>
           <Link href={"https://vercel.com"} target="_blank">
             <Image
-              alt="Tailwind CSS"
+              alt="Vercel"
               width={52}
               height={52}
               src="/vercel.svg"

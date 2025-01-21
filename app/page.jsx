@@ -1,5 +1,3 @@
-'use client';
- 
 
 import React from 'react';
 import { FaNodeJs } from "react-icons/fa";

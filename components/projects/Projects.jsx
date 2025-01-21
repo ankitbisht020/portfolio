@@ -48,7 +48,7 @@ const Projects = ({ projectsData }) => {
 
 export default Projects;
 
-const ViewAll = ({ handleClick, title, scrollTo }) => {
+ export const ViewAll = ({ handleClick, title, scrollTo }) => {
     return (
         <>
             <div className="bg-white dark:bg-grey-900 w-4/5 mx-auto blur-xl z-20 -translate-y-14 h-16"></div>

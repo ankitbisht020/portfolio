@@ -1,4 +1,5 @@
 'use client';
+import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/skills/Skills";
@@ -7,7 +8,9 @@ import Socials from "@/components/Socials";
 import Experiences from "@/components/experiences/Experiences";
 import Contact from "@/components/Contact";
 import CallToAction from "@/components/CallToActoin";
-import Header from "./Header";
+// import Header from "./Header";
+const Header = dynamic(() => import("./Header"), { ssr: false });
+
 import Footer from "./Footer";
 
 const HomePage = ({ data }) => {

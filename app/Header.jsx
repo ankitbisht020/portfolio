@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
-// import  ScrollLink  from 'react-scroll';
+import { Link as ScrollLink } from 'react-scroll';
+
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { FaNodeJs } from 'react-icons/fa';
 import { CgClose, CgMenuRight } from 'react-icons/cg';
