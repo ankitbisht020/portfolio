@@ -1,4 +1,4 @@
-![Portfolio](https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg)
+![Portfolio](https://github.com/ankitbisht020/portfoliyo/blob/main/public/portfolio-fork.png?raw=true)
 
 <div align="center">
   &middot;
