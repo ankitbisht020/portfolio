@@ -6,7 +6,6 @@ import { IoIosArrowForward } from 'react-icons/io';
 import wavingHand from '@/public/waving-hand.gif';
 
 const Hero = ({ mainData }) => {
-    console.log(mainData);
 
     const { theme } = useTheme()
     const { name, titles, heroImage, shortDesc, techStackImages } = mainData
