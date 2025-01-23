@@ -1,6 +1,6 @@
 'use client';
 import './globals.css';
-import { Poppins } from '@next/font/google';
+import { Poppins } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import { Analytics } from '@vercel/analytics/react';
 

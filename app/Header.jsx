@@ -36,7 +36,7 @@ export default function Header({ logo }) {
           href={'/'}
           className="2xl:ml-6 hover:text-violet-700 hover:dark:text-violet-500 transition-colors duration-300"
         >
-          {logo === 'Jigar Sable' ? (
+          {logo === 'Ankit Bisht' ? (
             <FaNodeJs size={28} />
           ) : (
             <span className="text-lg font-medium">{logo.split(' ')[0]}</span>

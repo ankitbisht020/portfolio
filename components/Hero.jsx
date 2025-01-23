@@ -6,6 +6,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import wavingHand from '@/public/waving-hand.gif';
 
 const Hero = ({ mainData }) => {
+    console.log(mainData);
 
     const { theme } = useTheme()
     const { name, titles, heroImage, shortDesc, techStackImages } = mainData
@@ -15,7 +16,7 @@ const Hero = ({ mainData }) => {
 
             <div className="absolute -z-10 min-h-screen h-full w-full">
                 <Image
-                    src="/herobgc.jpg"
+                    src="/herobg.jpg"
                     layout="fill"
                     objectFit="cover"
                     loading='lazy'
