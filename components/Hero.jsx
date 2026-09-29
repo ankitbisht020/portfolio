@@ -1,33 +1,47 @@
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { useTheme } from 'next-themes'
 import { Link as ScrollLink } from 'react-scroll'
 import Typewriter from 'typewriter-effect';
 import { IoIosArrowForward } from 'react-icons/io';
+import { FiTerminal } from 'react-icons/fi';
 import wavingHand from '@/public/waving-hand.gif';
+
+// Floating tech badges around the avatar (position + size for up to four icons).
+const badgeStyles = [
+    { wrap: "-top-6 -left-12 lg:-top-14 lg:-left-32 w-16 h-16 md:w-20 md:h-20", img: "h-8 w-8 md:h-10 md:w-10" },
+    { wrap: "top-0 -right-12 lg:-right-4 w-14 h-14", img: "h-8 w-8 md:h-10 md:w-10" },
+    { wrap: "bottom-[4rem] md:bottom-24 -right-16 md:-right-20 lg:bottom-[8.5rem] lg:-right-12 w-12 h-12 md:w-16 md:h-16", img: "h-6 w-6 md:h-10 md:w-10" },
+    { wrap: "-bottom-10 -right-8 lg:-bottom-0 lg:right-6 w-14 md:w-16 h-14 md:h-16", img: "h-10 w-10" },
+];
 
 const Hero = ({ mainData }) => {
 
-    const { theme } = useTheme()
-    const { name, titles, heroImage, shortDesc, techStackImages } = mainData
+    const { name, titles = [], heroImage, shortDesc, techStackImages = [] } = mainData
+    const [shortcut, setShortcut] = useState('Ctrl K')
+
+    useEffect(() => {
+        if (/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) setShortcut('⌘ K')
+    }, [])
 
     return (
-        <section id='home' className={`${theme === 'dark' && "bg-grey-900"} relative min-h-screen w-full mx-auto overflow-hidden`}>
+        <section id='home' className="dark:bg-grey-900 relative min-h-screen w-full mx-auto overflow-hidden">
 
-            <div className="absolute -z-10 min-h-screen h-full w-full">
+            <div className="absolute -z-10 inset-0">
                 <Image
                     src="/herobg.jpg"
-                    layout="fill"
-                    objectFit="cover"
-                    loading='lazy'
-                    className='object-bottom'
-                    quality={100} alt={''} />
+                    fill
+                    priority
+                    sizes="100vw"
+                    quality={80}
+                    className='object-cover object-bottom'
+                    alt="" />
             </div>
 
             <div className="py-16 lg:py-48 flex flex-col-reverse lg:flex-row justify-around gap-10 lg:gap-0">
 
                 <div className="flex flex-col gap-4 md:gap-6 text-left lg:w-1/2 2xl:w-1/3 mx-4 md:mx-6 xl:mx-0">
                     <div className="flex items-center gap-1">
-                        <Image unoptimized={true} alt='waving-hand' width={30} height={30} src={wavingHand} />
+                        <Image unoptimized={true} alt='' width={30} height={30} src={wavingHand} />
                         <p className="text-lg md:text-xl mt-2 md:mt-1.5">
                             Hey
                         </p>
@@ -56,36 +70,47 @@ const Hero = ({ mainData }) => {
                         {shortDesc}
                     </p>
 
-                    <ScrollLink
-                        className="w-fit text-sm md:text-base py-2 px-4 cursor-pointer flex items-center gap-1 rounded-md bg-violet-600 hover:bg-violet-700 dark:bg-violet-700 hover:dark:bg-violet-800 transition-colors group text-white"
-                        to={'about'}
-                        offset={-60}
-                        smooth={true}
-                        duration={500}
-                        isDynamic={true}
-                    >
-                        About Me
-                        <IoIosArrowForward className='group-hover:translate-x-1 transition-transform' />
-                    </ScrollLink>
+                    <div className="flex flex-wrap items-center gap-3">
+                        <ScrollLink
+                            className="w-fit text-sm md:text-base py-2 px-4 cursor-pointer flex items-center gap-1 rounded-md bg-violet-600 hover:bg-violet-700 dark:bg-violet-700 hover:dark:bg-violet-800 transition-colors group text-white"
+                            to={'about'}
+                            offset={-60}
+                            smooth={true}
+                            duration={500}
+                            isDynamic={true}
+                        >
+                            About Me
+                            <IoIosArrowForward className='group-hover:translate-x-1 transition-transform' />
+                        </ScrollLink>
+                        <ScrollLink
+                            className="w-fit text-sm md:text-base py-2 px-4 cursor-pointer flex items-center gap-2 rounded-md border border-violet-600 text-violet-700 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors"
+                            to={'terminal'}
+                            offset={-60}
+                            smooth={true}
+                            duration={500}
+                            isDynamic={true}
+                        >
+                            <FiTerminal />
+                            Open terminal
+                        </ScrollLink>
+                    </div>
+                    <p className="hidden sm:block text-xs text-gray-500 dark:text-gray-400">
+                        Tip: press <kbd className="px-1.5 py-0.5 rounded bg-white/70 dark:bg-grey-800 border border-gray-200 dark:border-grey-800">{shortcut}</kbd> to jump anywhere on this page.
+                    </p>
                 </div>
 
                 <div className="relative mx-auto lg:mx-0 mt-12 md:mt-16 lg:mt-0">
                     <div className="w-56 h-56 md:w-80 md:h-80 lg:-translate-x-16">
-                        <Image alt='avatar' width={1000} height={1000} className="rounded-full w-full h-full object-cover" src={heroImage} />
+                        {heroImage && (
+                            <Image alt={name} width={640} height={640} priority sizes="(min-width: 768px) 320px, 224px" className="rounded-full w-full h-full object-cover" src={heroImage} />
+                        )}
                     </div>
 
-                    <div className="absolute grid -top-6 -left-12 lg:-top-14 lg:-left-32 w-16 h-16 md:w-20 md:h-20 bg-white dark:bg-grey-800 rounded-full place-items-center hover:shadow-lg transition-shadow">
-                        <Image alt='tech-stack' className="h-8 w-8 md:h-10 md:w-10 object-cover" src={techStackImages[0]} width={100} height={100} />
-                    </div>
-                    <div className="absolute grid top-0 -right-12 lg:-right-4 w-14 h-14 bg-white dark:bg-grey-800 rounded-full place-items-center hover:shadow-lg transition-shadow">
-                        <Image alt='tech-stack' className="h-8 w-8 md:h-10 md:w-10 object-cover" src={techStackImages[1]} width={100} height={100} />
-                    </div>
-                    <div className="absolute grid bottom-[4rem] md:bottom-24 -right-16 md:-right-20 lg:bottom-[8.5rem] lg:-right-12 w-12 h-12 md:w-16 md:h-16 bg-white dark:bg-grey-800 rounded-full place-items-center hover:shadow-lg transition-shadow">
-                        <Image alt='tech-stack' className="h-6 w-6 md:h-10 md:w-10 object-cover" src={techStackImages[2]} width={100} height={100} />
-                    </div>
-                    <div className="absolute grid -bottom-10 -right-8 lg:-bottom-0 lg:right-6 w-14 md:w-16 h-14 md:h-16 bg-white dark:bg-grey-800 rounded-full place-items-center hover:shadow-lg transition-shadow">
-                        <Image alt='tech-stack' className="h-10 w-10 object-cover" src={techStackImages[3]} width={100} height={100} />
-                    </div>
+                    {techStackImages.slice(0, badgeStyles.length).map((src, i) => (
+                        <div key={src} className={`absolute grid ${badgeStyles[i].wrap} bg-white dark:bg-grey-800 rounded-full place-items-center hover:shadow-lg transition-shadow motion-safe:animate-float`} style={{ animationDelay: `${i * 0.6}s` }}>
+                            <Image alt='' className={`${badgeStyles[i].img} object-cover`} src={src} width={100} height={100} />
+                        </div>
+                    ))}
                 </div>
 
             </div>

@@ -1,8 +1,6 @@
-'use client';
 import './globals.css';
 import { Poppins } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
-import { Analytics } from '@vercel/analytics/react';
+import Providers from './providers';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -10,18 +8,19 @@ const poppins = Poppins({
   variable: '--font-poppins',
 });
 
+// Page-level title/description come from Firebase in app/page.jsx (generateMetadata).
+export const metadata = {
+  icons: { icon: '/favicon.ico' },
+};
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head />
-      <ThemeProvider attribute="class" defaultTheme="light">
-        <body
-          className={`${poppins.className} font-poppins bg-gray-100/50 dark:bg-grey-900 text-black dark:text-white overflow-x-hidden`}
-        >
-          {children}
-          <Analytics />
-        </body>
-      </ThemeProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${poppins.className} font-poppins bg-gray-100/50 dark:bg-grey-900 text-black dark:text-white overflow-x-hidden`}
+      >
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

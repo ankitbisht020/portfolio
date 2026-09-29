@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import * as Fa from "react-icons/fa";
+import { socialIcon } from "@/lib/socialIcons";
 
 export default function Footer({ socials, name }) {
   const { theme } = useTheme();
@@ -49,9 +49,10 @@ export default function Footer({ socials, name }) {
               target="_blank"
               rel="noreferrer"
               key={s.icon}
+              aria-label={s.icon.replace(/^Fa/, "")}
               className="grid place-items-center p-3 rounded-full text-lg hover:bg-gray-100 hover:dark:bg-grey-900 transition-colors"
             >
-              {React.createElement(Fa[s.icon])}
+              {React.createElement(socialIcon(s.icon))}
             </Link>
           ))}
         </div>

@@ -1,58 +1,64 @@
-import { useTheme } from "next-themes";
-import Image from "next/image";
 import Link from "next/link";
+import { Link as ScrollLink } from "react-scroll";
 import { BiLinkExternal } from "react-icons/bi";
-import { FaGithub } from "react-icons/fa";
+import { FiSend } from "react-icons/fi";
 import SectionWrapper from "./SectionWrapper";
+import { hasLink } from "@/lib/site";
 
-const CallToAction = () => {
-  const { theme } = useTheme();
+// Recruiter-facing call to action (replaces the template's "fork this portfolio" banner).
+const CallToAction = ({ about = {}, titles = [] }) => {
+  const role = about.title || "Developer";
 
   return (
     <SectionWrapper
       id="cta"
-      className="xl:max-w-6xl my-24 lg:mx-10 xl:mx-auto mx-4 relative overflow-hidden flex flex-col-reverse md:flex-row gap-3 md:gap-0 items-center bg-gradient-to-r from-violet-700 to-purple-700 text-white rounded-2xl p-6 md:p-8 lg:px-12 lg:py-16 z-10"
+      className="xl:max-w-6xl my-24 lg:mx-10 xl:mx-auto mx-4 relative overflow-hidden flex flex-col md:flex-row gap-8 md:gap-10 items-center bg-gradient-to-r from-violet-700 to-purple-700 text-white rounded-2xl p-6 md:p-8 lg:px-12 lg:py-16 z-10"
     >
       <div className="flex flex-col md:w-1/2 lg:w-3/5">
         <h2 className="text-2xl lg:text-4xl font-extrabold">
-          Loved this <span className="text-yellow-400">portfolio?</span>
+          Have a backend or AI project in mind?
         </h2>
-        <h3 className="md:text-base lg:text-xl font-medium mt-1.5">
-          Make this <span className="text-yellow-400">yours</span> by forking.
-        </h3>
-        <p className="text-sm md:text-base mt-2.5 md:mt-6">
-          Fork this template on GitHub and start building your own portfolio website.
+        <p className="text-sm md:text-base mt-3 md:mt-5 text-violet-100 max-w-lg">
+          I design APIs, real-time systems and AI features that hold up in production. Tell me what you are building and I will get back to you.
         </p>
-        <div className="flex items-center gap-4 my-4">
-          <Link
-            href="https://github.com/ankitbisht020/portfoliyo"
-            target="_blank"
-            className="py-2 px-4 bg-white text-black rounded-lg w-fit flex items-center gap-2 hover:shadow-xl transition-shadow"
+        <div className="flex flex-wrap items-center gap-4 mt-6">
+          <ScrollLink
+            to="contact"
+            offset={-60}
+            smooth={true}
+            duration={500}
+            className="cursor-pointer py-2 px-4 bg-white text-black rounded-lg w-fit flex items-center gap-2 hover:shadow-xl transition-shadow"
           >
-            <FaGithub />
-            Fork Now
-          </Link>
-          <Link
-            href="https://github.com/ankitbisht020/portfoliyo"
-            target="_blank"
-            className="py-2 px-4 bg-violet-800 rounded-lg w-fit flex items-center gap-2 hover:bg-violet-900 transition-all"
-          >
-            Visit Docs
-            <BiLinkExternal />
-          </Link>
+            <FiSend />
+            Start a conversation
+          </ScrollLink>
+          {hasLink(about.resumeUrl) && (
+            <Link
+              href={about.resumeUrl}
+              target="_blank"
+              className="py-2 px-4 bg-violet-800 rounded-lg w-fit flex items-center gap-2 hover:bg-violet-900 transition-all"
+            >
+              View resume
+              <BiLinkExternal />
+            </Link>
+          )}
         </div>
       </div>
-      <div className="w-full md:w-1/2 h-40 md:h-52 lg:w-96 mb-4 md:mb-0 mx-auto rounded-lg bg-white dark:bg-grey-900">
-        <Image
-          alt="Fork this template on Github"
-          quality={100}
-          width={1000}
-          height={1000}
-          className="w-full h-full mt-2 object-cover object-top rounded-lg"
-          src={theme === "dark" ? "/portfolio-fork-dark.png" : "/portfolio-fork.png"}
-        />
-      </div>
-      {/* <div className="absolute -bottom-10 -right-6 h-72 w-96 rounded-lg bg-white"></div> */}
+
+      <pre
+        aria-hidden="true"
+        className="w-full md:w-1/2 lg:w-2/5 rounded-xl bg-grey-900/90 text-[13px] leading-relaxed p-5 font-mono text-gray-200 overflow-x-auto shadow-2xl"
+      >
+<span className="text-violet-400">const</span> <span className="text-sky-300">engineer</span> = {"{"}{"\n"}
+{"  "}role: <span className="text-emerald-300">&quot;{role}&quot;</span>,{"\n"}
+{"  "}focus: [{"\n"}
+{titles.slice(0, 4).map((t, i) => (
+  <span key={t}>{"    "}<span className="text-emerald-300">&quot;{t}&quot;</span>{i < Math.min(titles.length, 4) - 1 ? "," : ""}{"\n"}</span>
+))}
+{"  "}],{"\n"}
+{"  "}ships: <span className="text-amber-300">true</span>,{"\n"}
+{"}"};
+      </pre>
     </SectionWrapper>
   );
 };

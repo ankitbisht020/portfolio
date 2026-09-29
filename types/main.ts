@@ -13,7 +13,8 @@ type project = {
         visit: string,
         code: string,
         video: string
-    }
+    },
+    desc?: string | string[]   // optional: shown in the project details modal
 }
 
 type experience = {
@@ -48,6 +49,19 @@ type about = {
     callUrl: string
 }
 
+type achievement = {
+    date: string,
+    title: string,
+    details: string
+}
+
+type stat = {
+    value: number,
+    label: string,
+    prefix?: string,
+    suffix?: string
+}
+
 type social = {
     name: string,
     icon: string,
@@ -61,7 +75,9 @@ type data = {
     projects: project[],
     experiences: experience[],
     educations: education[]
-    socials: social[]
+    socials: social[],
+    achievements?: achievement[],
+    stats?: stat[]            // optional: numbers shown in the Impact section
 }
 
-export type { data, main, about, skill, project, experience, education, social };
+export type { data, main, about, skill, project, experience, education, social, achievement, stat };

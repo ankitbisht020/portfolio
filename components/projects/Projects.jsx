@@ -1,47 +1,81 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-scroll";
+import { AnimatePresence, motion } from "framer-motion";
 import SectionWrapper from "../SectionWrapper";
 import ProjectCard from "./ProjectCard";
+import ProjectModal from "./ProjectModal";
+
+const ALL = 'All';
+const PAGE_SIZE = 6;
 
 const Projects = ({ projectsData }) => {
 
-    const [projects, setProjects] = useState([...projectsData].reverse());
-    const categories = [...Array.from(new Set(projects.map((s) => s.category)))];
-    const [category, setCategory] = useState(categories[0]);
-    const [filteredProjects, setFilteredProjects] = useState(projects);
+    // Newest projects are added at the end of the array, so show them first.
+    const projects = useMemo(() => [...projectsData].reverse(), [projectsData]);
+    const categories = useMemo(() => [ALL, ...new Set(projects.map((p) => p.category).filter(Boolean))], [projects]);
+    const [category, setCategory] = useState(ALL);
     const [viewAll, setViewAll] = useState(false);
+    const [active, setActive] = useState(null);
+
+    const filteredProjects = category === ALL
+        ? projects
+        : projects.filter((p) => p.category?.toLowerCase() === category.toLowerCase());
+    const visible = filteredProjects.slice(0, viewAll ? filteredProjects.length : PAGE_SIZE);
 
     const filterProjects = (cat) => {
         setViewAll(false);
         setCategory(cat);
-        setFilteredProjects(projects.filter((p) => p.category.toLowerCase() === cat.toLowerCase()));
     };
 
+    const close = useCallback(() => setActive(null), []);
+
+    // The command menu can ask for a specific project to be opened.
     useEffect(() => {
-        filterProjects(categories.includes('MERN Stack') ? "MERN Stack" : categories[0]);
-    }, []);
+        const onOpenProject = (e) => {
+            const match = projects.find((p) => p.name === e.detail);
+            if (match) setActive(match);
+        };
+        window.addEventListener('open-project', onOpenProject);
+        return () => window.removeEventListener('open-project', onOpenProject);
+    }, [projects]);
 
     return (
         <SectionWrapper id="projects" className="mx-4 md:mx-0 min-h-screen">
             <h2 className="text-4xl text-center">Projects</h2>
 
-            <div className="overflow-x-auto scroll-hide md:w-full max-w-screen-sm mx-auto mt-6 flex justify-between items-center gap-2 md:gap-3 bg-white dark:bg-grey-800 p-2 rounded-md">
-                {categories.map((c, i) => (
-                    <span key={i} onClick={() => filterProjects(c)} className={`p-1.5 md:p-2 w-full text-sm md:text-base text-center capitalize rounded-md ${category.toLowerCase() === c.toLowerCase() ? "bg-violet-600 text-white" : "hover:bg-gray-100 hover:dark:bg-grey-900"} cursor-pointer transition-all`}>
-                        {c}
-                    </span>
+            <div role="tablist" aria-label="Filter projects" className="overflow-x-auto scroll-hide md:w-full max-w-screen-sm mx-auto mt-6 flex justify-between items-center gap-2 md:gap-3 bg-white dark:bg-grey-800 p-2 rounded-md">
+                {categories.map((c) => (
+                    <button
+                        key={c}
+                        type="button"
+                        role="tab"
+                        aria-selected={category === c}
+                        onClick={() => filterProjects(c)}
+                        className={`relative p-1.5 md:p-2 w-full text-sm md:text-base text-center capitalize rounded-md whitespace-nowrap ${category === c ? "text-white" : "hover:bg-gray-100 hover:dark:bg-grey-900"} transition-colors`}
+                    >
+                        {category === c && (
+                            <motion.span layoutId="project-tab" className="absolute inset-0 bg-violet-600 rounded-md" transition={{ type: 'spring', stiffness: 400, damping: 32 }} />
+                        )}
+                        <span className="relative">{c}</span>
+                    </button>
                 ))}
             </div>
 
-            <div className="md:mx-6 lg:mx-auto lg:w-5/6 2xl:w-3/4 my-4 md:my-8 mx-auto grid md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10">
-                {filteredProjects.slice(0, viewAll ? filteredProjects.length : 6).map((p, i) => (
-                    <ProjectCard key={i} {...p} />
-                ))}
-            </div>
+            <motion.div layout className="md:mx-6 lg:mx-auto lg:w-5/6 2xl:w-3/4 my-4 md:my-8 mx-auto grid md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10">
+                <AnimatePresence mode="popLayout">
+                    {visible.map((p) => (
+                        <ProjectCard key={`${p.name}-${p.category}`} project={p} onOpen={() => setActive(p)} />
+                    ))}
+                </AnimatePresence>
+            </motion.div>
 
-            {filteredProjects.length > 6 &&
+            {filteredProjects.length > PAGE_SIZE &&
                 <ViewAll scrollTo='projects' title={viewAll ? 'Okay, I got it' : 'View All'} handleClick={() => setViewAll(!viewAll)} />
             }
+
+            <AnimatePresence>
+                {active && <ProjectModal key={active.name} project={active} onClose={close} />}
+            </AnimatePresence>
         </SectionWrapper>
     );
 };
