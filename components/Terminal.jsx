@@ -3,7 +3,7 @@ import { useTheme } from 'next-themes';
 import { toast } from 'react-toastify';
 import SectionWrapper from './SectionWrapper';
 import { goTo, copyText } from '@/lib/scroll';
-import { CONTACT_EMAIL, hasLink, socialName } from '@/lib/site';
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_HREF, hasLink, socialName } from '@/lib/site';
 
 const PROMPT = 'guest@ankit:~$';
 const QUICK = ['help', 'whoami', 'skills', 'projects', 'experience', 'contact'];
@@ -105,6 +105,7 @@ const buildCommands = (data, { run, getCommands, setTheme, resolvedTheme }) => {
             desc: 'How to reach me',
             run: () => [
                 <span key="m">Email: <A href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</A> <Muted>(type &quot;email&quot; to copy)</Muted></span>,
+                <span key="p">Phone: <A href={CONTACT_PHONE_HREF}>{CONTACT_PHONE}</A> <Muted>(type &quot;phone&quot; to copy)</Muted></span>,
                 ...socials.map((s) => <span key={s.link}>{socialName(s.icon).padEnd(11)} <A href={s.link}>{s.link.replace(/^https?:\/\/(www\.)?/, '')}</A></span>),
             ],
         },
@@ -113,6 +114,13 @@ const buildCommands = (data, { run, getCommands, setTheme, resolvedTheme }) => {
             run: () => {
                 copyText(CONTACT_EMAIL).then((ok) => ok && toast.success('Email copied!'));
                 return [`Copied ${CONTACT_EMAIL} to your clipboard.`];
+            },
+        },
+        phone: {
+            desc: 'Copy my phone number',
+            run: () => {
+                copyText(CONTACT_PHONE).then((ok) => ok && toast.success('Phone number copied!'));
+                return [`Copied ${CONTACT_PHONE} to your clipboard.`];
             },
         },
         resume: {

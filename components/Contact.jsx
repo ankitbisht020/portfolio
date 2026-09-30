@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import { BiLoaderAlt } from "react-icons/bi";
-import { FiCopy, FiMail } from "react-icons/fi";
+import { FiCopy, FiMail, FiPhone } from "react-icons/fi";
 import SectionWrapper from "./SectionWrapper";
 import Image from "next/image";
 import { ToastContainer, toast } from 'react-toastify';
 import emailjs from "emailjs-com"; 
 import 'react-toastify/dist/ReactToastify.css';
-import { CONTACT_EMAIL } from "@/lib/site";
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_HREF } from "@/lib/site";
 import { copyText } from "@/lib/scroll";
 
 // EmailJS keys: set these in Vercel → Settings → Environment Variables.
@@ -88,6 +88,9 @@ const Contact = () => {
                         <button type="button" onClick={copyEmail} aria-label="Copy email address" className="flex items-center gap-1.5 py-2 px-3 rounded-lg border border-gray-200 dark:border-grey-800 hover:border-violet-400 transition-colors">
                             <FiCopy /> Copy
                         </button>
+                        <a href={CONTACT_PHONE_HREF} className="flex items-center gap-2 py-2 px-3 rounded-lg bg-gray-100 dark:bg-grey-800 hover:text-violet-700 dark:hover:text-violet-400 transition-colors">
+                            <FiPhone /> {CONTACT_PHONE}
+                        </a>
                     </div>
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-xl">

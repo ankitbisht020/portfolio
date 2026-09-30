@@ -3,10 +3,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import { toast } from 'react-toastify';
-import { FiSearch, FiArrowRight, FiCopy, FiFileText, FiMoon, FiSun, FiTerminal, FiFolder, FiExternalLink } from 'react-icons/fi';
+import { FiSearch, FiArrowRight, FiCopy, FiFileText, FiMoon, FiPhone, FiSun, FiTerminal, FiFolder, FiExternalLink } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi';
 import { goTo, copyText } from '@/lib/scroll';
-import { CONTACT_EMAIL, hasLink, socialName } from '@/lib/site';
+import { CONTACT_EMAIL, CONTACT_PHONE, hasLink, socialName } from '@/lib/site';
 
 const SECTIONS = [
     { id: 'home', label: 'Home' },
@@ -79,6 +79,13 @@ const CommandPalette = ({ data, aiEnabled }) => {
                 hint: CONTACT_EMAIL,
                 Icon: FiCopy,
                 run: async () => ((await copyText(CONTACT_EMAIL)) ? toast.success('Email copied!') : toast.info(CONTACT_EMAIL)),
+            },
+            {
+                group: 'Actions',
+                label: 'Copy phone number',
+                hint: CONTACT_PHONE,
+                Icon: FiPhone,
+                run: async () => ((await copyText(CONTACT_PHONE)) ? toast.success('Phone number copied!') : toast.info(CONTACT_PHONE)),
             },
             hasLink(resumeUrl) && { group: 'Actions', label: 'Open resume', hint: 'cv pdf', Icon: FiFileText, run: () => window.open(resumeUrl, '_blank', 'noopener') },
             aiEnabled && { group: 'Actions', label: 'Ask AI about me', hint: 'chat assistant', Icon: HiSparkles, run: () => window.dispatchEvent(new Event('open-ask-ai')) },
