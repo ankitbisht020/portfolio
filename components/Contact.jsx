@@ -13,8 +13,10 @@ import { copyText } from "@/lib/scroll";
 // EmailJS keys: set these in Vercel → Settings → Environment Variables.
 // The fallbacks keep the current behaviour working until you do.
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_ov8o4ad';
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '__ejs-test-mail-service__';
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_g5os26u';
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'wMX7YdNbKjzQHUZGt';
+// Optional second template that emails the visitor a "we got your message" reply.
+const EMAILJS_AUTOREPLY_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID ||'template_xuejucc' ;
 
 const Contact = () => {
     const [values, setValues] = useState({
@@ -41,17 +43,15 @@ const Contact = () => {
 
         setLoading(true);
 
-        emailjs.send(
-            EMAILJS_SERVICE_ID,
-            EMAILJS_TEMPLATE_ID,
-            {
-                from_name: name,
-                from_email: email,
-                message: message,
-            },
-            EMAILJS_PUBLIC_KEY
-        )
+        const params = { from_name: name, from_email: email, message };
+
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params, EMAILJS_PUBLIC_KEY)
             .then(() => {
+                // Best effort: a failed auto-reply must not turn a delivered message into an error.
+                if (EMAILJS_AUTOREPLY_TEMPLATE_ID) {
+                    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_AUTOREPLY_TEMPLATE_ID, params, EMAILJS_PUBLIC_KEY)
+                        .catch((error) => console.error("Auto-reply failed:", error));
+                }
                 setValues({ name: "", email: "", message: "" });
                 setLoading(false);
                 toast.success("Message sent successfully!");

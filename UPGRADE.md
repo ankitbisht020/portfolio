@@ -16,8 +16,9 @@
 | `NEXT_PUBLIC_FIREBASE_DATABASE_URL` | yes | Already set. |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | no | Defaults to ankitbisht9837@gmail.com |
 | `NEXT_PUBLIC_EMAILJS_SERVICE_ID` | no | Falls back to the current value |
-| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | recommended | Current fallback is EmailJS's *test* template |
+| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | no | Message-to-owner template; falls back to `template_g5os26u` |
 | `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` | no | Falls back to the current value |
+| `NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID` | no | Second EmailJS template that auto-replies to the visitor; skipped when unset |
 | `AI_API_KEY` + `AI_MODEL` | for Ask AI | Chat widget only appears when both are set |
 | `AI_BASE_URL` | no | Any OpenAI-compatible API. Default `https://api.openai.com/v1`; Groq: `https://api.groq.com/openai/v1` |
 | `AI_FALLBACK_API_KEY` + `AI_FALLBACK_MODEL` (+ `AI_FALLBACK_BASE_URL`) | no | Used only if the primary provider fails |
